@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters: 
+  YourDomainNameParameter: 
+    Type: String
+    Default: "michael.jiangren.mooo.com"
+  TargetDomainNameParameter: 
+    Type: String
+    Default: jiangren.com.au
+Resources:
+  MyRoute53RecordSet:
+    Type: 'AWS::Route53::RecordSet'
+    Properties:
+      HostedZoneId: !Ref MyHostedZone
+      Name: !Join [ ".", [ 'www', !Ref YourDomainNameParameter ] ] 
+      Comment: My DNS cname to jiangren.com.au
+      Type: CNAME
+      ResourceRecords:
+        - !Ref TargetDomainNameParameter
+      TTL: 15
+  MyHostedZone:
+    Type: "AWS::Route53::HostedZone"
+    Properties: 
+      HostedZoneConfig: 
+        Comment: "Hosted zone created by Cloudformation"
+      Name: !Ref YourDomainNameParameter
+
+Outputs:
+  CloudFrontEndpoint:
+    Description: "New DNS to Jiangren website"
+    Value: !Join [ ".", [ 'www', !Ref YourDomainNameParameter ] ] 
