@@ -12,6 +12,9 @@ https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-a
 Get notified when your bill goes out of control:
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html
 
+## Install AWS CLI
+https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+
 ## AWS Local Authentication (CLI access)
 1. Create an IAM User
   - Login to your AWS Console using your root credentials
