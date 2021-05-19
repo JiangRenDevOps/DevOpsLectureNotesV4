@@ -16,7 +16,7 @@ https://dashboard.ngrok.com/login
 
 ## Step #2: Follow docs to install ngrok client and setup authtoken
 ```
-ngrok authtoken xxx
+ngrok authtoken {YOUR_TOKEN}
 ```
 ![Alt text](images/expose-jenkins-to-public-internet-02.png?raw=true)
 
