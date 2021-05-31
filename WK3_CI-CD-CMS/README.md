@@ -51,18 +51,52 @@ Sample project: https://github.com/JiangRenDevOps/jrcms
 
 ## Task #5: Create Elastic Beanstalk environments in AWS
 Create beanstock environments in aws:
+Start with creating a new application. 
+![Alt text](images/newapp.png?raw=true)
 
-![Alt text](images/CI_CD_CMS_03.png?raw=true)
-![Alt text](images/CI_CD_CMS_07.png?raw=true)
-![Alt text](images/CI_CD_CMS_08.png?raw=true)
-![Alt text](images/CI_CD_CMS_09.png?raw=true)
-![Alt text](images/CI_CD_CMS_10.png?raw=true)
-![Alt text](images/CI_CD_CMS_11.png?raw=true)
-![Alt text](images/CI_CD_CMS_12.png?raw=true)
-![Alt text](images/CI_CD_CMS_13.png?raw=true)
-![Alt text](images/CI_CD_CMS_14.png?raw=true)
+Then move to create a new environment for the application. Choose Web sever env:
+![Alt text](images/createmoreenv.png?raw=true)
 
-You will need to update the `Jenkinsfile` and files under `deployment` folder accordingly.
+You want to make sure the application name matches the application you just created (* If you dont have an application created already or input a different name, AWS will try to create an new application with the name you provide)
+![Alt text](images/reuseappname.png?raw=true)
+
+Choose docker as platform and create
+![Alt text](images/create.png?raw=true)
+
+You will first see it in pending state, but shortly it will be ready. 
+![Alt text](images/createapp.png?raw=true)
+You can click on URL to see a sample application, later after the deployment, the sample app will be replaced by our CMS application
+![Alt text](images/clicklinktosee.png?raw=true)
+
+Repeat this until you have three more environments created which are test/staging/prod (feel free to name the differently to suit your need)
+![Alt text](images/repeat.png?raw=true)
+
+The name you are using here should match environments defined in Jenkinsfile.  
+
+Now that we have all the environments created, we need to create a user with permission in IAM so our pipeline could have access to application/environments we just created
+Look for IAM in search box
+![Alt text](images/iam.png?raw=true)
+
+Click add user, give it a name of your choice and select programatic access
+![Alt text](images/iam2.png?raw=true)
+Select Admin Access from attach existing policies
+![Alt text](images/iam3.png?raw=true)
+
+Leave the tags open
+![Alt text](images/iam4.png?raw=true)
+Click create user and save the access key & scret access key
+![Alt text](images/iam5.png?raw=true)
+![Alt text](images/iam6.png?raw=true)
+
+Now go to jenkins, similar to what we did in for docker hub username&password, create a creadential for the user we just created, use Access key ID as username and secret access key as password
+![Alt text](images/iam7.png?raw=true)
+
+You will need to update the `Jenkinsfile` and files under `deployment` folder accordingly. In Jenkinsfile, you want to make sure that the test url matches the url of your beanstalk app / credentials matches / replace the prefix for the app you are deploying with your application name, e.g. in my case I'd update all occurances of "jrcms-" to "jrcmssean-"
+![Alt text](images/name.png?raw=true)
+
+![Alt text](images/testurl.png?raw=true)
+![Alt text](images/prefix.png?raw=true)
+
 
 ## Task #6: Setup Github integration
 
