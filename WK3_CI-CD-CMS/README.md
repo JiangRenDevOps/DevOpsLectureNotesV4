@@ -16,15 +16,18 @@ Add "serviceAccountName: jenkins" to Jenkins in workloads.
 ![Alt text](images/CI_CD_CMS_01.png?raw=true)
 
 ## Task #3: Install Kubernetes plugin and configure Kubernetes in Jenkins
-```
-jenkins-1-jenkins-agents-connector:50000
-```
+Replace default setting as following value:
+- Jenkins URL: http://[your_jenkins_ip_address] e.g. http://35.227.228.139
+- Jenkins tunnel: jenkins-1-jenkins-agents-connector:50000
+- Pod label key: jenkins
+- Pod label value: slave
+
 ![Alt text](images/CI_CD_CMS_02.png?raw=true)
 
 
 https://github.com/jenkinsci/kubernetes-plugin/blob/master/README.md
 
-Test your connection with a new test pipeline 
+Test your connection with a new test pipeline
 ```
 podTemplate {
     node(POD_LABEL) {
