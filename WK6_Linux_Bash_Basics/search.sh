@@ -4,8 +4,9 @@ echo "Tutorial 1. filter the directory hierarchy based on a file’s name"
 
 echo "-----------------locate-----------------"
 # Locate the file. But this require the database for files to be built first
+(sudo updatedb if you ran into this error locate: can not stat () `/var/lib/mlocate/mlocate.db': No such file or directory )
 echo "#1. Locate all jpg files"
-locate *.jpg
+locate *.jpg 
 
 echo "#2. Ignore case sensitivity"
 locate -i *.jpg
