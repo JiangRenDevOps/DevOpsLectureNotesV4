@@ -30,7 +30,7 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 
 ## Task #4: Run hello world to validate the setup of the EC2 instances
 ```
-cd DevOpsLectureNotesV3/WK7_CM_Ansible_Packer/ansible-playbooks
+cd DevOpsLectureNotesV4/WK7_CM_Ansible_Packer/ansible-playbooks
 ansible all -i inventory.aws_ec2.yaml -u ubuntu -m ping
 ```
 
