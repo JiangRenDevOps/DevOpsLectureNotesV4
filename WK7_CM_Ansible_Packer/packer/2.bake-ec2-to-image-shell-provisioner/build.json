@@ -1,0 +1,16 @@
+{
+    "builders": [{
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-047a51fa27710816e",
+      "instance_type": "t2.micro",
+      "ssh_username": "ec2-user",
+      "ami_name": "jiangren-packer-demo-2 {{timestamp}}"
+    }],
+    "provisioners": [
+    {
+      "type": "shell",
+      "script": "bake.sh"
+    }
+    ]
+  }
