@@ -91,7 +91,7 @@ Note: -p flag is to ensure to create parent directories as well
 
 Create the main.tf file
 ```
-touch ./services/backend_app/main.tf
+vim ./services/backend_app/main.tf
 ```
 Provider - Set up the provider for our terraform
 A provider is responsible for understanding API interactions and exposing resources. Providers generally are an IaaS (e.g. Alibaba Cloud, AWS, GCP, Microsoft Azure, OpenStack), PaaS (e.g. Heroku), or SaaS services (e.g. Terraform Cloud, DNSimple, CloudFlare).
@@ -110,7 +110,7 @@ Note: Please replace `shared_credentials_file` with your own path.
 
 Now let us set up the lambda function. See
 ```
-touch ./services/backend_app/lambda.tf
+vim ./services/backend_app/lambda.tf
 ```
 
 Resource - Resources are the most important element in the Terraform language. Each resource block describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components such as DNS records.
