@@ -161,6 +161,11 @@ EOF
 ```
 
 ## terraform init
+
+Run this command under `services/backend_app`
+```
+terraform init
+```
 This command performs several different initialization steps in order to prepare a working directory for use. More details on these are in the sections below, but in most cases it is not necessary to worry about these individual steps.
 
 This command is always safe to run multiple times, to bring the working directory up to date with changes in the configuration. Though subsequent runs may give errors, this command will never delete your existing configuration or state.
@@ -169,10 +174,6 @@ If no arguments are given, the configuration in the current working directory is
 
 ![Alt text](../images/terraform_init.png?raw=true)
 
-Run it under `services/backend_app`
-```
-terraform init
-```
 
 ## terraform plan
 
