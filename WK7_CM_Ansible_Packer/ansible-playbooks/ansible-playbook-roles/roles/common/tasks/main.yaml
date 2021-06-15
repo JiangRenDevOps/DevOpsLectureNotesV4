@@ -1,0 +1,14 @@
+---
+- name: Add universe repository for bionic as required by docker install
+  apt_repository:
+    repo: deb http://archive.ubuntu.com/ubuntu bionic universe
+    state: present
+  when: ansible_distribution_release == 'bionic'
+
+- name: Install Docker
+  include_role:
+    name: geerlingguy.docker
+
+- name: Install pip
+  include_role:
+    name: geerlingguy.pip

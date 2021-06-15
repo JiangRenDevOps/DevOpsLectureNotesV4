@@ -1,0 +1,16 @@
+{
+    "builders": [{
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-04b9e92b5572fa0d1",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "jiangren-packer-demo-3 {{timestamp}}"
+    }],
+    "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "../../ansible-playbooks/ansible-playbook-plain/site.yaml"
+    }
+    ]
+  }
