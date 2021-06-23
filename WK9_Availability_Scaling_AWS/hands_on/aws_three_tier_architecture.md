@@ -1,9 +1,9 @@
 # Creating a Three-Tier Architecture in AWS
 
 ## Introduction
-A three-tier architecture is a software architecture pattern where the application is broken down into three logical tiers: the presentation layer, the business logic layer and the data storage layer. 
+A three-tier architecture is a software architecture pattern where the application is broken down into three logical tiers: the presentation layer, the business logic layer and the data storage layer.
 
-This architecture is used in a client-server application such as a web application that has the frontend, the backend and the database. Each of these layers or tiers does a specific task and can be managed independently of each other. 
+This architecture is used in a client-server application such as a web application that has the frontend, the backend and the database. Each of these layers or tiers does a specific task and can be managed independently of each other.
 
 This is a shift from the monolithic way of building an application where the frontend, the backend and the database are both sitting in one place.
 
@@ -23,10 +23,10 @@ This is a shift from the monolithic way of building an application where the fro
 
 ## Workshop Purpose
 - Get familiar with how to practise auto-scaling and availability
-- Get your hand dirty with AWS fundamentals. 
+- Get your hand dirty with AWS fundamentals.
 
 ## Prerequisite
-Please ensure you have an AWS account. 
+Please ensure you have an AWS account.
 
 Warning:
 - This is a very heavy workshop so you may get lost in the first time, but you will get used to it very soon.
@@ -47,37 +47,37 @@ Tip: Click View in Designer to check it out.
 ### Create one VPC and two subnets
 - Setup the Virtual Private Cloud (VPC)
     https://console.aws.amazon.com/vpc/home?region=region=ap-southeast-2#vpcs:sort=desc:VpcId
-    
+
     VPC stands for Virtual Private Cloud (VPC). It is a virtual network where you create and manage your AWS resource in a more secure and scalable manner. Go to the VPC section of the AWS services, and click on the Create VPC button.
     Give your VPC a name and a CIDR block of 10.0.0.0/16
-    
+
     ![Alt text](../images/multi-tier/vpc.png?raw=true)
-    
+
     also, we need to enable public dns domain (so later we can check the instances. see more https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-support)
-    
-    ![Alt text](../images/multi-tier/enable dns.png?raw=true)
+
+    ![Alt text](../images/multi-tier/enable-dns.png?raw=true)
 
 - Setup the Internet Gateway
 
     The Internet Gateway allows communication between the EC2 instances in the VPC and the internet. To create the Internet Gateway, navigate to the Internet Gateways page and then click on Create internet gateway button.
-    
+
     We need to attach our VPC to the internet gateway. To do that:
-    
+
     a. we select the internet gateway
-    
+
     ![Alt text](../images/multi-tier/ig.png?raw=true)
-    
+
     b. Click on the Actions button and then select Attach to VPC.
-    
+
     ![Alt text](../images/multi-tier/attach-vpc.png?raw=true)
-    
+
     c. Select the VPC to attach the internet gateway and click Attach
-    
+
     ![Alt text](../images/multi-tier/attach-vpc2.png?raw=true)
 
 - Create two subnets
     https://console.aws.amazon.com/vpc/home?region=region=ap-southeast-2#subnets:sort=desc:tag:Name
-    
+
     Note: You can give any names, and both of them are public.
     But the CIDR must be within the range of VPC CIDR. So for example, one Subnet CIDR block is 10.0.1.0/24, and the other can be 10.0.0.0/24.
     Here is a tool to check https://www.ipaddressguide.com/cidr
@@ -87,22 +87,22 @@ Tip: Click View in Designer to check it out.
 
     We need to route the traffic to the internet through the internet gateway for our public route table.
     To do that we select the public route table and then choose the Routes tab. The rule should be similar to the one shown below:
-    
+
     ![Alt text](../images/multi-tier/route-table.png?raw=true)
-    
+
     After the public route table is created, associate this route table to your two public subnets. You can do this on the subnet config tab "Route Table".
 
 Questions?
 
     What is VPC and Subnet?
     https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html
-    
+
     What is CIDR?
     Classless inter-domain routing (CIDR) is a set of Internet protocol (IP) standards that is used to create unique identifiers for networks and individual devices. The IP addresses allow particular information packets to be sent to specific computers.
-    
-    When you create a VPC, you must specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. 
 
-    More questions about VPC - https://github.com/michaelsu2014/aws-solution-architect-associate-notes/blob/master/vpc/vpc-core.md 
+    When you create a VPC, you must specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC.
+
+    More questions about VPC - https://github.com/michaelsu2014/aws-solution-architect-associate-notes/blob/master/vpc/vpc-core.md
 
 ### Configure user key pair
 Make sure you have a user key pair to access your EC2 instance
@@ -163,12 +163,12 @@ use the template in `./hands_on/CFN-multi-tier-app.yaml`
 - What are some good highlights?
     - LB backed by 2 web-tier EC2 instances running Apache.
     - web-tier EC2 instances are created in different availability zones of the region.
-    - Security: 
-    
+    - Security:
+
        a. VPC and 2 subnets
-       
+
        b. web-tier EC2 are only accessible via LB, but not exposed publicly.
-       
+
        c. app-tier is not exposed publicly.
 
 - What are some bad highlights?
@@ -181,41 +181,41 @@ use the template in `./hands_on/CFN-multi-tier-app.yaml`
 Right now we have 2 instances running, but it is not enough to handle user load. So we need to create ASG to handle the load automatically.
 
 ### Create Launch Template
-Use new Launch template before creating ASG. 
+Use new Launch template before creating ASG.
 https://console.aws.amazon.com/ec2/v2/home?region=region=ap-southeast-2#CreateTemplate:
 
 The good things about Launch Template over Launch Configuration are
 1) you don't need to specify those again and again when you spin up a EC2
 2) you have version control
-    
+
 More on launch template: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html
 
 - Create a Launch template
 
     ami: use : ami-04f77aa5970939148 (#   Free Tier AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type - ami-04f77aa5970939148 (64-bit x86))
-    
+
     instance type: t2.micro (free-tier)
-    
+
     key pair name: same as before
-    
+
     ![Alt text](../images/multi-tier/launch-template-settings.png?raw=true)
-    
+
     network: enable public ip and select ec2 private security group
-    
+
     Note: it is only for the convenience of checking at instances in the browser
-    
+
     ![Alt text](../images/multi-tier/network-interface.png?raw=true)
 
 - Update Launch template
 
     Notice: the instances don't have apache installed and also we want to check its host and availability zone for testing.
-    
+
     We have a way to use user data in EC2. Let us update it.
     ![Alt text](../images/multi-tier/add-user-data.png?raw=true)
-    
+
     Add the following script to user data in Advanced section.
 
-    Note: please copy the code below correctly.    
+    Note: please copy the code below correctly.
 
     ```bash
     #!/bin/bash
@@ -226,9 +226,9 @@ More on launch template: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2
     EC2_AVAIL_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
     echo "<h1>Hello World From Multi-Tier Sample App at at $(hostname -f) in AZ $EC2_AVAIL_ZONE </h1>" > /var/www/html/index.html
     ```
-    
+
     ![Alt text](../images/multi-tier/add-user-script.png?raw=true)
-    
+
     Set the new template as the default
     ![Alt text](../images/multi-tier/add-user-template.png?raw=true)
 
@@ -236,24 +236,24 @@ More on launch template: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2
 
 Note: ASG has launched new UI, but you should be able to figure out.
 
-- Create ASG 
+- Create ASG
     https://console.aws.amazon.com/ec2autoscaling/home?region=region=ap-southeast-2#/create
-    
+
     Select the Launch Template just created
     ![Alt text](../images/multi-tier/asg-template.png?raw=true)
-    
+
     Select VPC, subnets, healthcheck as ec2, target group
     ![Alt text](../images/multi-tier/It-subnets.png?raw=true)
-    
+
     Set the intances between 1 and 3 to experiment
     ![Alt text](../images/multi-tier/asg-scale.png?raw=true)
-    
+
     Review and make sure everything looks correct
     ![Alt text](../images/multi-tier/asg-review.png?raw=true)
 
 - Inspect the instances created by ASG
     ![Alt text](../images/multi-tier/asg-check-instance.png?raw=true)
-    
+
     You should be able to see
     ![Alt text](../images/multi-tier/It-result.png?raw=true)
 
@@ -265,7 +265,7 @@ Note: ASG has launched new UI, but you should be able to figure out.
 
 ![Alt text](../images/multi-tier/asg-desired.png?raw=true)
 
-- Remove the two instances created from the CloudFormation template, 
+- Remove the two instances created from the CloudFormation template,
   because we have ASG to control the instance, we can remove the ones created from the CFN template
 
 
@@ -278,8 +278,8 @@ Note: ASG has launched new UI, but you should be able to figure out.
     • Most simple and easy to set-up
     • Example: I want the average ASG CPU to stay at around 40%
 • Simple / Step Scaling
-    
-    • When a CloudWatch alarm is triggered (example CPU > 70%), then add 2 units 
+
+    • When a CloudWatch alarm is triggered (example CPU > 70%), then add 2 units
     • When a CloudWatch alarm is triggered (example CPU < 30%), then remove 1
 • Scheduled Actions
 
@@ -335,7 +335,7 @@ https://console.aws.amazon.com/ec2/v2/home?region=region=ap-southeast-2#LoadBala
 
 Reference: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-register-lbs-with-asg.html
 
-Note: 
+Note:
 - ALB relies on the target group to find which instances to redirect
 - It takes a few mins to create ALB.
 
@@ -344,10 +344,10 @@ Can you please add ASG in the App Tier, similarly like what we did in Web Tier?
 
 ### Bastion Host
 
-The bastion host is just an EC2 instance that sits in the public subnet. 
+The bastion host is just an EC2 instance that sits in the public subnet.
 
-The best practice is to only allow SSH to this instance from your trusted IP. 
-- Config the security group for the bastion host 
+The best practice is to only allow SSH to this instance from your trusted IP.
+- Config the security group for the bastion host
 To create a bastion host, navigate to the EC2 instance page and create an EC2 instance in the public subnet within our VPC. Also, ensure that it has public IP.
 - Config the security group for instances in App Tier by only selecting bastion host ip
 
