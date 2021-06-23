@@ -49,7 +49,7 @@ ansible-galaxy install geerlingguy.pip
 ```
 More about galaxy: https://docs.ansible.com/ansible/latest/galaxy/user_guide.html
 
-Alternatively, you can use `ansible-galaxy install -f requirements.yaml`
+Alternatively, you can use `ansible-galaxy install -r requirements.yaml`
 
 ## Task #6: Read playbook under ansible-playbook-plain and execute
 Read `site.yaml` under `ansible-playbook-plain`.
